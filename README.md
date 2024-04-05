@@ -50,3 +50,8 @@ Es una base de datos key-value donde el cluster almacena el estado, datos, backu
 - Recibe informacion del Nodo master y lo plasma en los nodos.
 - Envia informacion (estadisticas) al Nodo master.
 - Por ejemplo, El master le dice al kubelet que cree un contenedor docker, kubelet se comunica con docker para crear el contenedor solicitado. En cada nodo debe estar instalado Docker.
+
+### Kube-Proxy
+
+- Servicio que corre en cada nodo.
+- Se encarga de todo el tema de redes relacionados con contenedores.
