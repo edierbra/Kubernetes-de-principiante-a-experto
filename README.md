@@ -27,3 +27,7 @@ Kubernetes se divide en master y nodos. Master es el cerebro de kubernetes, es d
 ### Kubernetes API
 
 Servicio que permite a un usuario comunicarse con kubernetes y darle ordenes como `kubectl run`, `kubectl apply`, `kubectl delete`, `kubectl get`, etc. Tambien se puede mediante archivos **JSON**.
+
+### Kube-Scheduler
+
+Se encarga de crear el contenedor en el lugar correcto. Por ejemplo, encuentra en que nodo debe crear el contenedor.
