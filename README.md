@@ -18,6 +18,12 @@ Herramienta que permite facilitar la administracion de contenedores.
 
 ## Seccion 2: Arquitectura de kubernetes
 
+![Kubernetes Architecture](/img/kubernetesArchitecture.png)
+
 ### Arquitectura Master-Node
 
 Kubernetes se divide en master y nodos. Master es el cerebro de kubernetes, es decir, controla a los nodos y realiza todas las operaciones. Los nodos son maquinas virtuales o fisicas donde corren los contenedores.
+
+### Kubernetes API
+
+Servicio que permite a un usuario comunicarse con kubernetes y darle ordenes como `kubectl run`, `kubectl apply`, `kubectl delete`, `kubectl get`, etc. Tambien se puede mediante archivos **JSON**.
