@@ -40,3 +40,6 @@ Se encarga de colocar el contenedor en el lugar correcto. Por ejemplo, encuentra
   - EndPoint controller: se trata de servicios y pods a nivel de redes.
   - Services acount y Tokens Controller: se encarga de la autenticacion cuando hay cominicacion con Kubernetes API.
 
+### Etcd
+
+Es una base de datos key-value donde el cluster almacena el estado, datos, backups, configuraciones, etc.
