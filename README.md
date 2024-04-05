@@ -43,3 +43,10 @@ Se encarga de colocar el contenedor en el lugar correcto. Por ejemplo, encuentra
 ### Etcd
 
 Es una base de datos key-value donde el cluster almacena el estado, datos, backups, configuraciones, etc.
+
+### Kubelet
+
+- Servicio que corre en cada nodo.
+- Recibe informacion del Nodo master y lo plasma en los nodos.
+- Envia informacion (estadisticas) al Nodo master.
+- Por ejemplo, El master le dice al kubelet que cree un contenedor docker, kubelet se comunica con docker para crear el contenedor solicitado. En cada nodo debe estar instalado Docker.
