@@ -60,3 +60,13 @@ Es una base de datos key-value donde el cluster almacena el estado, datos, backu
 
 - Instalado en cada nodo.
 - Se encarga de crear los contenedores en cada nodo. si usamos Docker, este debe estar instalado en cada nodo.
+
+## Seccion 3: Instalacion de Minikube
+
+### Kubectl
+
+Segir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/docs/start/)
+
+### Instalacion de Docker
+
+Segir el tutorial oficial de [Docker engine](https://docs.docker.com/engine/install/ubuntu/) or [Docker Desktop](https://docs.docker.com/desktop/install/linux-install/).
