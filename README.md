@@ -77,7 +77,7 @@ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 chmod +x kubectl
 mkdir -p ~/.local/bin
-mv ./kubectl ~/.local/bin/kubectl
+mv ./kubectl /usr/bin/kubectl
 kubectl version
 ```
 
