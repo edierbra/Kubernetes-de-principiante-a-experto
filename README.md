@@ -98,3 +98,10 @@ Si sale este error al ejecutar el comando `docker`, seguir los siguinetes pasos:
 Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/docs/start/).
 
 - Editar el archivo `~/.bashrc` para agregar un alias. Por ejemplo agregar `alias kubectl="sudo kubectl"`. Una vez guardado los cambios ejecutar `source ~/.bashrc`.
+
+## Comandos basicos de Minikube
+
+- `minikube status` ver el estado del Minikube.
+- `minikube stop` detener Minikube.
+- `minikube start` iniciar Minikube.
+- `minikube delete` eliminar Minikube 
