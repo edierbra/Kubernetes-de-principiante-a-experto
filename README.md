@@ -92,3 +92,9 @@ Si sale este error al ejecutar el comando `docker`, seguir los siguinetes pasos:
 3. Add user to docker group : `sudo usermod -aG docker ${USER}`
 4. Change docker.sock to new permission : `sudo chmod 666 /var/run/docker.sock`
 5. Finally restart docker daemon service : `sudo systemctl restart docker`
+
+### Instalacion de Minikube
+
+Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/docs/start/).
+
+- Editar el archivo `~/.bashrc` para agregar un alias. Por ejemplo agregar `alias kubectl="sudo kubectl"`. Una vez guardado los cambios ejecutar `source ~/.bashrc`.
