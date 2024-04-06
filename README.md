@@ -65,8 +65,30 @@ Es una base de datos key-value donde el cluster almacena el estado, datos, backu
 
 ### Kubectl
 
-Segir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/docs/start/)
+Segir el tutorial oficial de [Install Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+
+```cmd
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO https://dl.k8s.io/release/v1.29.2/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/release/v1.29.2/bin/linux/arm64/kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+# La salida deb ser: kubectl: OK 
+install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+chmod +x kubectl
+mkdir -p ~/.local/bin
+mv ./kubectl ~/.local/bin/kubectl
+kubectl version
+```
 
 ### Instalacion de Docker
 
 Segir el tutorial oficial de [Docker engine](https://docs.docker.com/engine/install/ubuntu/) or [Docker Desktop](https://docs.docker.com/desktop/install/linux-install/).
+
+Si sale este error al ejecutar el comando `docker`, seguir los siguinetes pasos: permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.45/containers/json": dial unix /var/run/docker.sock: connect: permission denied
+
+1. Get the user: `whoami`
+2. Create docker group if not exist : ``sudo groupadd docker
+3. Add user to docker group : `sudo usermod -aG docker ${USER}`
+4. Change docker.sock to new permission : `sudo chmod 666 /var/run/docker.sock`
+5. Finally restart docker daemon service : `sudo systemctl restart docker`
