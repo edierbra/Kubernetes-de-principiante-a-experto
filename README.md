@@ -99,9 +99,22 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 
 - Editar el archivo `~/.bashrc` para agregar un alias. Por ejemplo agregar `alias kubectl="sudo kubectl"`. Una vez guardado los cambios ejecutar `source ~/.bashrc`.
 
-## Comandos basicos de Minikube
+### Comandos basicos de Minikube
 
 - `minikube status` ver el estado del Minikube.
 - `minikube stop` detener Minikube.
 - `minikube start` iniciar Minikube.
 - `minikube delete` eliminar Minikube 
+
+## Seccion 4: Pods en Kubernetes VS Contenedores de Docker
+
+### Contenedor Docker
+
+- Un contenedor se ejecuta de manera aislada en un namespace:
+  - IPC (Inter process Comunication): un contenedor puede ver solo sus propios procesos.
+  - Cgroup: controla el consusmo de recursos en un contenedor.
+  - Network: cada contenedor tiene su propia red.
+  - Mount: permite montar un sistema de archivos dentro de un contenedor.
+  - PID: es el id que se le da a ,los procesos dentro de un contenedor. Un contenedor solo puede ver sus propios procesos.
+  - User: Un contenedor olo puede ver los usuarios creados en el.
+  - UTS (Unix Timesharing System): Permite colocar un hostname unico a un contenedor.
