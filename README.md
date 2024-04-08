@@ -127,3 +127,8 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 - Como se hereda la misma configuracion de red, todos los contenedores tendran el mismo ID.
 - Un Pod es uno o mas contenedores que comparten namespaces.
 - Un Pod tiene una sola IP.
+
+## Seccion 5: Explorando Pods
+
+- `kubectl run pod <pod name> --image=<image>:<image version>` crea un pod.
+- `kubectl get pods` listar todos los pods.
