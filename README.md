@@ -127,12 +127,14 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 - Como se hereda la misma configuracion de red, todos los contenedores tendran el mismo ID.
 - Un Pod es uno o mas contenedores que comparten namespaces.
 - Un Pod tiene una sola IP.
+- Un Pod es la unidad mas pequeña de Kubernetes.
 
 ## Seccion 5: Explorando Pods
 
 - `kubectl api-resources` ver los comandos que tienen **SHORTNAMES**.
-- `kubectl run pod <pod name> --image=<image>:<image version>` crea un pod.
+- `kubectl run <pod name> --image=<image>:<image version>` crea un pod.
 - `kubectl get pods` listar todos los pods.
+- `kubectl get pod <pod name> -o yaml` obtiene el **.yaml** desde un Pod creado.
+- `kubectl get pod <pod name> -o wide` la bandera **-o wide** permite ver informacion adicional al listar los Pods.
 - `kubectl describe pod <pod name>` descrive un pod. Es decir, muestra todos los detalles y eventos del pod.
 - `kubectl delete pod <pod name>` eliminar un pod. Se pueden listar varios pod a eliminar.
-- 
