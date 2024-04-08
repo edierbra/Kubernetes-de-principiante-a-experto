@@ -130,6 +130,9 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 
 ## Seccion 5: Explorando Pods
 
+- `kubectl api-resources` ver los comandos que tienen **SHORTNAMES**.
 - `kubectl run pod <pod name> --image=<image>:<image version>` crea un pod.
 - `kubectl get pods` listar todos los pods.
 - `kubectl describe pod <pod name>` descrive un pod. Es decir, muestra todos los detalles y eventos del pod.
+- `kubectl delete pod <pod name>` eliminar un pod. Se pueden listar varios pod a eliminar.
+- 
