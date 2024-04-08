@@ -132,3 +132,4 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 
 - `kubectl run pod <pod name> --image=<image>:<image version>` crea un pod.
 - `kubectl get pods` listar todos los pods.
+- `kubectl describe pod <pod name>` descrive un pod. Es decir, muestra todos los detalles y eventos del pod.
