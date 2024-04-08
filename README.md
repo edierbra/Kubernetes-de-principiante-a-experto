@@ -118,3 +118,12 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
   - PID: es el id que se le da a ,los procesos dentro de un contenedor. Un contenedor solo puede ver sus propios procesos.
   - User: Un contenedor olo puede ver los usuarios creados en el.
   - UTS (Unix Timesharing System): Permite colocar un hostname unico a un contenedor.
+
+### Pod en Kubernetes
+
+- Docker crea una red Bridge virtual para unir los contenedores y asi estos se puedan comunicar. 
+- Kubernetes comparte los namespaces: IPC, Network, UTS.
+- Kubernetes crea un contenedor temporal para compartir su ID (ID de IPC, ID de Network, ID de UTS) con los demas contenedores.
+- Como se hereda la misma configuracion de red, todos los contenedores tendran el mismo ID.
+- Un Pod es uno o mas contenedores que comparten namespaces.
+- Un Pod tiene una sola IP.
