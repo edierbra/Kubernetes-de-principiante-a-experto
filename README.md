@@ -257,7 +257,13 @@ spec:
 - `template:` indica la estructura del pod.
 - El label del pod debe coincidir con los labels indicados en el **matchLabels** del **selector**.
 - `kubectl apply -f archivo.yml` crea el ReplicaSet.
+- ReplicaSet puede usar pod ya creados si estos coinciden con los labels definidos en el selector.
 
 ### Owner References
 
 Cada ReplicaSet tiene en su metedata un identificador unico **uid**, los pods que pertenecen a este ReplicaSet tendran en su metadadta este mismo **uid**.
+
+### Problemas de ReplicaSet
+
+- ReplicaSet puede utilizar pods ya creados si estos coinciden con los labels definidos en el selector, lo que puede causar que use un pod muy diferente a los indicados en el archivo .yml del ReplicaSet
+- No permite cambios directamente en el pod dentro del template YAML.
