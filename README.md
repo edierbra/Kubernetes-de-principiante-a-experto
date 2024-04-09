@@ -251,8 +251,8 @@ spec:
           command: ['sh', '-c', 'echo cont2 > index.html && python -m http.server 8083']
 ```
 
-- La metadata del Replica set debe tener un nombre y por lo menos el label `app: <label value>`.
-- `replicas: 3` indica el numero de replicas, en este caso 3.
+- La metadata del ReplicaSet debe tener un nombre y por lo menos el label `app: <label value>`.
+- `replicas: 5` indica el numero de replicas, en este caso 5.
 - `selector:` indica que pods debe tener en cuenta.
 - `template:` indica la estructura del pod.
 - El label del pod debe coincidir con los labels indicados en el **matchLabels** del **selector**.
@@ -279,3 +279,38 @@ Cada ReplicaSet tiene en su metedata un identificador unico **uid**, los pods qu
 - Para actualizar el ReplicaSet, el Deployment crea otro ReplicaSet.
 - Una vez terminada la actualizacion, los pods del ReplicaSet anterior deben estar inactivos.
 - Kubernetes mantiene 10 ReplicaSets dentro de un Deployment.
+
+### Estructura del Deployment
+
+Archivo dep.yml:
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-test
+  labels:
+    app: front
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pod-label
+  template:
+    metadata:
+      labels:
+        app: pod-label
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+```
+
+- La metadata del Deployment debe tener un nombre y por lo menos el label `app: <label value>`.
+- `replicas: 3` indica el numero de replicas, en este caso 3.
+- `selector:` indica que pods debe tener en cuenta.
+- `template:` indica la estructura del pod.
+- El label del pod debe coincidir con los labels indicados en el **matchLabels** del **selector**.
+- `kubectl apply -f archivo.yml` crea el Deployment.
+- `kubectl get deployment <deploy name> --show.labels` la bandera `--show.labels` permite mostrar los labels del deployment.
+`kubectl rollout status deployment deploy-test` estados del rollout de un deployment.
