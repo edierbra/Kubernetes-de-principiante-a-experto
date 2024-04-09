@@ -261,7 +261,7 @@ spec:
 
 ### Owner References
 
-Cada ReplicaSet tiene en su metedata un identificador unico **uid**, los pods que pertenecen a este ReplicaSet tendran en su metadadta este mismo **uid**.
+Cada ReplicaSet tiene en su metedata un identificador unico **uid**, los pods que pertenecen a este ReplicaSet tendran en su metadadta este mismo **uid** en la seccion de ownerReferences.
 
 ### Problemas de ReplicaSet
 
@@ -314,3 +314,7 @@ spec:
 - `kubectl apply -f archivo.yml` crea el Deployment.
 - `kubectl get deployment <deploy name> --show.labels` la bandera `--show.labels` permite mostrar los labels del deployment.
 `kubectl rollout status deployment deploy-test` estados del rollout de un deployment.
+
+### Owner References
+
+Cada Deployment tiene en su metedata un identificador unico **uid**, los ReplicaSet que pertenecen a este Deployment tendran en su metadadta este mismo **uid** en la seccion de ownerReferences. Y de la misma manera los ReplicaSets tendaran Pods.
