@@ -324,3 +324,31 @@ Cada Deployment tiene en su metedata un identificador unico **uid**, los Replica
 - `kubectl rollout status deployment deploy-test` estados del rollout de un deployment.
 - `kubectl rollout history deploy deploy-test` ver el historial de rollouts.
 
+### Limite de ReplicaSets
+
+Agregar `revisionHistoryLimit: 5` en el **spec** del template del Deployment, en este caso 5 es el limite. De esta manera solo Kubernetes solo guardara una version.
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-test
+  labels:
+    app: front
+spec:
+  revisionHistoryLimit: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pod-label
+  template:
+    metadata:
+      labels:
+        app: pod-label
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 70
+```
