@@ -103,7 +103,7 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 
 - `minikube status` ver el estado del Minikube.
 - `minikube stop` detener Minikube.
-- `minikube start` iniciar Minikube.
+- `minikube start` o `minikube start --vm-driver=<docker / virtualbox>` iniciar Minikube.
 - `minikube delete` eliminar Minikube 
 
 ## Seccion 4: Pods en Kubernetes VS Contenedores de Docker
@@ -138,3 +138,6 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 - `kubectl get pod <pod name> -o wide` la bandera **-o wide** permite ver informacion adicional al listar los Pods.
 - `kubectl describe pod <pod name>` descrive un pod. Es decir, muestra todos los detalles y eventos del pod.
 - `kubectl delete pod <pod name>` eliminar un pod. Se pueden listar varios pod a eliminar.
+- `kubectl exec -it <pod name> -- sh` entrar a un contenedor en modo interactivo.
+- `kubectl port-forward <pod name> <host port>:<pod port>` ecrear un túnel seguro desde una dirección local a un puerto específico en un pod en ejecución en Kubernetes.
+- `kubectl logs <pod name>` ver los logs de un pod. Si agrego la bandera `-f` puedo obserbar los logs en vivo.
