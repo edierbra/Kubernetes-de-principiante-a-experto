@@ -232,7 +232,7 @@ metadata:
   labels:
     app: rs-test
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: pod-label
