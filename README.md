@@ -153,8 +153,6 @@ Un manifiesto es el usu de archivos **YAML** para la creacion de objetos en el c
   kind: Pod
   metadata:
     name: podtest2
-    labels:
-      app: myapp
   spec:
     containers:
       - name: container1
@@ -168,8 +166,6 @@ Un manifiesto es el usu de archivos **YAML** para la creacion de objetos en el c
   kind: Pod
   metadata:
     name: podtest2
-    labels:
-      app: myapp
   spec:
     containers:
       - name: container1
@@ -179,10 +175,27 @@ Un manifiesto es el usu de archivos **YAML** para la creacion de objetos en el c
   kind: Pod
   metadata:
     name: podtest3
-    labels:
-      app: myapp
   spec:
     containers:
       - name: container2
         image: nginx:alpine
   ```
+
+### Pods con mas de un contenedor
+
+- Se necesita colocar 2 imagenes en la parte de **containers**:
+  ```yml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: podtest
+  spec:
+    containers:
+      - name: container1
+        image: nginx:alpine
+      - name: container2
+        image: nginx:alpine
+  ```
+- `kubectl logs <pod name> -c <container name>` ver los logs de un contenedor si el pod tiene dos o mas contenedores.
+- `kubectl exec -it <pod name> -c <container name> -- sh` ingresa a un contenedor en especifico del pod si el pod tiene dos o mas contenedores.
+

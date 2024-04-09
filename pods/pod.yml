@@ -13,8 +13,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: podtest3
-  labels:
-    app: myapp
 spec:
   containers:
     - name: container2
