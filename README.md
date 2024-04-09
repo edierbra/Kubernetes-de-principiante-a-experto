@@ -256,3 +256,7 @@ spec:
 - `template:` indica la estructura del pod.
 - El label del pod debe coincidir con los labels indicados en el **matchLabels** del **selector**.
 - `kubectl apply -f archivo.yml` crea el ReplicaSet.
+
+### Owner References
+
+Cada ReplicaSet tiene en su metedataun identificador unico **uid**, los pods que pertenecen a este ReplicaSet tendran en su metadadta este mismo **uid**.
