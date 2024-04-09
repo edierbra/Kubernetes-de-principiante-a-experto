@@ -267,3 +267,15 @@ Cada ReplicaSet tiene en su metedata un identificador unico **uid**, los pods qu
 
 - ReplicaSet puede utilizar pods ya creados si estos coinciden con los labels definidos en el selector, lo que puede causar que use un pod muy diferente a los indicados en el archivo .yml del ReplicaSet
 - No permite cambios directamente en el pod dentro del template YAML.
+
+## Seccion 7: Deployments
+
+### Que es un Deployment
+
+- Un Deployment es el dueño de un ReplicaSet.
+- Permite actualizar tu aplicacion. En este proceso el Deployment  usa dos parametros:
+  - Max Unable: porcentaje de pods ue pueden estar inactivos (Por defecto 25%) al momento de actualizar el ReplicaSet.
+  - Max Source: porcentaje de Pods permitidos en estado de actualizacion (Por defecto 25)
+- Para actualizar el ReplicaSet, el Deployment crea otro ReplicaSet.
+- Una vez terminada la actualizacion, los pods del ReplicaSet anterior deben estar inactivos.
+- Kubernetes mantiene 10 ReplicaSets dentro de un Deployment.
