@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podtest2
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podtest3
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: container2
+      image: nginx:alpine

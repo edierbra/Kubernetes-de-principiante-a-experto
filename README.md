@@ -132,6 +132,7 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 ## Seccion 5: Explorando Pods
 
 - `kubectl api-resources` ver los comandos que tienen **SHORTNAMES**.
+- `kubectl api-versions` ver las verciones de kubernetes disponibles.
 - `kubectl run <pod name> --image=<image>:<image version>` crea un pod.
 - `kubectl get pods` listar todos los pods.
 - `kubectl get pod <pod name> -o yaml` obtiene el **.yaml** desde un Pod creado.
@@ -141,3 +142,47 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 - `kubectl exec -it <pod name> -- sh` entrar a un contenedor en modo interactivo.
 - `kubectl port-forward <pod name> <host port>:<pod port>` ecrear un túnel seguro desde una dirección local a un puerto específico en un pod en ejecución en Kubernetes.
 - `kubectl logs <pod name>` ver los logs de un pod. Si agrego la bandera `-f` puedo obserbar los logs en vivo.
+
+### Manifiestos de Kubernetes
+
+Un manifiesto es el usu de archivos **YAML** para la creacion de objetos en el cluster.
+
+- Archivo pod-yml:
+  ```yml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: podtest2
+    labels:
+      app: myapp
+  spec:
+    containers:
+      - name: container1
+        image: nginx:alpine
+  ```
+- `kubectl apply -f pod.yml` crea el pod con el archivo pod.yml
+- `kubectl delete -f pod.yml` elimina todos lo creado con pod.yml
+- Podemos crear varios pods con un solo archivo.yml:
+  ```yml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: podtest2
+    labels:
+      app: myapp
+  spec:
+    containers:
+      - name: container1
+        image: nginx:alpine
+  ---
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: podtest3
+    labels:
+      app: myapp
+  spec:
+    containers:
+      - name: container2
+        image: nginx:alpine
+  ```
