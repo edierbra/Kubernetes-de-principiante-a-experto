@@ -274,8 +274,8 @@ Cada ReplicaSet tiene en su metedata un identificador unico **uid**, los pods qu
 
 - Un Deployment es el dueño de un ReplicaSet.
 - Permite actualizar tu aplicacion. En este proceso el Deployment  usa dos parametros:
-  - Max Unable: porcentaje de pods ue pueden estar inactivos (Por defecto 25%) al momento de actualizar el ReplicaSet.
-  - Max Source: porcentaje de Pods permitidos en estado de actualizacion (Por defecto 25)
+  - Max Unavailable: porcentaje de pods ue pueden estar inactivos (Por defecto 25%) al momento de actualizar el ReplicaSet.
+  - Max Surge: porcentaje de Pods permitidos en estado de actualizacion (Por defecto 25)
 - Para actualizar el ReplicaSet, el Deployment crea otro ReplicaSet.
 - Una vez terminada la actualizacion, los pods del ReplicaSet anterior deben estar inactivos.
 - Kubernetes mantiene 10 ReplicaSets dentro de un Deployment.
@@ -313,8 +313,14 @@ spec:
 - El label del pod debe coincidir con los labels indicados en el **matchLabels** del **selector**.
 - `kubectl apply -f archivo.yml` crea el Deployment.
 - `kubectl get deployment <deploy name> --show.labels` la bandera `--show.labels` permite mostrar los labels del deployment.
-`kubectl rollout status deployment deploy-test` estados del rollout de un deployment.
 
 ### Owner References
 
 Cada Deployment tiene en su metedata un identificador unico **uid**, los ReplicaSet que pertenecen a este Deployment tendran en su metadadta este mismo **uid** en la seccion de ownerReferences. Y de la misma manera los ReplicaSets tendaran Pods.
+
+### Rolling Updates
+
+- `kubectl apply -f deployment.yml` realiza los cambios realizados en el template.
+- `kubectl rollout status deployment deploy-test` estados del rollout de un deployment.
+- `kubectl rollout history deploy deploy-test` ver el historial de rollouts.
+
