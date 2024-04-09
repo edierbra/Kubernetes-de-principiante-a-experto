@@ -220,3 +220,39 @@ Los labels son metadata para identificar los pods dentro del cluster.
 - Si un pod falla, ReplicaSet se encargara de crearlo nuevamente.
 - Es importante que cada pod tenga un label para que el ReplicaSet pueda identificar los pods y crear uno nuevo si alguno falla.
 - ReplicaSet agrega un **Owner References** en la metadata del pod para saber a que ReplicaSet pertenece.
+
+### Funcionamiento de ReplicaSet
+
+Archivo replicaSet.yml:
+```yml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-test
+  labels:
+    app: rs-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pod-label
+  template:
+    metadata:
+      labels:
+        app: pod-label
+    spec:
+      containers:
+        - name: container1
+          image: python:3.6-alpine
+          command: ['sh', '-c', 'echo cont1 > index.html && python -m http.server 8082']
+        - name: container2
+          image: python:3.6-alpine
+          command: ['sh', '-c', 'echo cont2 > index.html && python -m http.server 8083']
+```
+
+- La metadata del Replica set debe tener un nombre y por lo menos el label `app: <label value>`.
+- `replicas: 3` indica el numero de replicas, en este caso 3.
+- `selector:` indica que pods debe tener en cuenta.
+- `template:` indica la estructura del pod.
+- El label del pod debe coincidir con los labels indicados en el **matchLabels** del **selector**.
+- `kubectl apply -f archivo.yml` crea el ReplicaSet.
