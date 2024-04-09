@@ -205,6 +205,7 @@ Los labels son metadata para identificar los pods dentro del cluster.
 
 - `kubectl get po -l app=frontend` filtra los pods con el label **app: frontend**.
 - Se recomienda que por lo menos incluyamos el label **app: <value>**.
+- `kubectl label pods <pod name> <label-key>=<label-value>` agrega un label a un pod.
 
 ### Problemas con los Pods
 
@@ -259,4 +260,4 @@ spec:
 
 ### Owner References
 
-Cada ReplicaSet tiene en su metedataun identificador unico **uid**, los pods que pertenecen a este ReplicaSet tendran en su metadadta este mismo **uid**.
+Cada ReplicaSet tiene en su metedata un identificador unico **uid**, los pods que pertenecen a este ReplicaSet tendran en su metadadta este mismo **uid**.
