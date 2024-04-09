@@ -211,3 +211,12 @@ Los labels son metadata para identificar los pods dentro del cluster.
 - Si el pod falla, no puede recuperarse solospor si solo.
 - Por si mismos no pueden replicarse.
 - Los Pods no pueden actualizarse asi mismos.
+
+## Seccion 6: SeplicaSets
+
+### Que es ReplicaSet
+
+- Indica cuantas replicas o copias de un pod quiero crear.
+- Si un pod falla, ReplicaSet se encargara de crearlo nuevamente.
+- Es importante que cada pod tenga un label para que el ReplicaSet pueda identificar los pods y crear uno nuevo si alguno falla.
+- ReplicaSet agrega un **Owner References** en la metadata del pod para saber a que ReplicaSet pertenece.
