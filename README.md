@@ -199,3 +199,9 @@ Un manifiesto es el usu de archivos **YAML** para la creacion de objetos en el c
 - `kubectl logs <pod name> -c <container name>` ver los logs de un contenedor si el pod tiene dos o mas contenedores.
 - `kubectl exec -it <pod name> -c <container name> -- sh` ingresa a un contenedor en especifico del pod si el pod tiene dos o mas contenedores.
 
+### Labels y Pods
+
+Los labels son metadata para identificar los pods dentro del cluster.
+
+- `kubectl get po -l app=frontend` filtra los pods con el label **app: frontend**.
+- Se recomienda que por lo menos incluyamos el label **app: <value>**.

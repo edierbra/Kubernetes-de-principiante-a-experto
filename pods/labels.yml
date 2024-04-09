@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: podtest2
+  labels:
+    app: frontend
+    env: dev
 spec:
   containers:
     - name: container1
@@ -11,6 +14,21 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: podtest3
+  labels:
+    app: backend
+    env: dev
+spec:
+  containers:
+    - name: container2
+      image: nginx:alpine
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podtest4
+  labels:
+    app: backend
+    env: dev
 spec:
   containers:
     - name: container2
