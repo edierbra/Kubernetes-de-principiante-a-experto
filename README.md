@@ -205,3 +205,9 @@ Los labels son metadata para identificar los pods dentro del cluster.
 
 - `kubectl get po -l app=frontend` filtra los pods con el label **app: frontend**.
 - Se recomienda que por lo menos incluyamos el label **app: <value>**.
+
+### Problemas con los Pods
+
+- Si el pod falla, no puede recuperarse solospor si solo.
+- Por si mismos no pueden replicarse.
+- Los Pods no pueden actualizarse asi mismos.
