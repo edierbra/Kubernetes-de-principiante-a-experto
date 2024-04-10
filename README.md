@@ -459,3 +459,10 @@ spec:
 - Es el servicio por defecto.
 - Solo es accecible dentro del Cluster y se usa para la comunicacion interna entre servicios.
 - Con la ip del servicesno podremos acceder de manera externa al cluster.
+
+#### NodePort Servives
+
+- Expone un servicio fuera del cluster.
+- Basicamente es exponer un puerto a nivel del Nodo para que un cliente pueda acceder al servicio creado.
+- El rango de puertos permitidos para el servicio NodePort es del puerto 30000 al puerto 32767.
+- `minikube service svc-test2` ver los servicios creados y la direccion externa para acceder a ellos.
