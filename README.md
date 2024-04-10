@@ -542,6 +542,6 @@ COPY --from=builder /app/app .
 CMD ["./app"]
 ```
 
-- `sudo docker build -t k8-hands-on -f Dockerfile `ejecuto el Dockerfile para crear la imagen **k8-hands-on**.
+- `sudo docker build -t k8-hands-on -f Dockerfile `ejecuto el Dockerfile para crear la imagen **k8-hands-on**. La imagen la puedes encontar en DockerHub `ricardoandre97/backend-k8s-hands-on:v1`.
 - `docker run -d -p 9091:9090 --name k8-hands-on k8-hands-on`ejecuto la imagen **k8-hands-on** y expongo el puerto **9091** de nuestro host para acceder a la aplicacion.
 - `docker rm -fv k8-hands-on` para eliminar el contenedor si ya no lo necesito
