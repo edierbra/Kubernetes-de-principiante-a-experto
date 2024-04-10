@@ -323,6 +323,8 @@ Cada Deployment tiene en su metedata un identificador unico **uid**, los Replica
 - `kubectl apply -f deployment.yml` realiza los cambios realizados en el template.
 - `kubectl rollout status deployment deploy-test` estados del rollout de un deployment.
 - `kubectl rollout history deploy deploy-test` ver el historial de rollouts.
+- `kubectl rollout history deploy <deploy name> --revision=2` permite revisar un rollout en especifico, en este caso es el rollout 2.
+
 
 ### Limite de ReplicaSets
 
@@ -352,3 +354,37 @@ spec:
         ports:
         - containerPort: 70
 ```
+### Change-Cause
+
+Existen diferentes formas formas. Se recomienda hacerlo directamente en el template:
+
+- `kubectl apply -f deploy.yml --record=true` la bandera `--record=true` permite agregar el comando ejecutado como causa.
+- `kubectl annotate deploy <deploy name> kubernetes.io/change-cause="<cause message>"` para especificar el cambio realizado.
+- Agregar una `annotations` con el parametro `kubernetes.io/change-cause: "<cause message>` en la metadata del template del Deployment:
+
+  ```yml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      kubernetes.io/change-cause: "Changes port to 110"
+    name: deploy-test
+    labels:
+      app: front
+  spec:
+    revisionHistoryLimit: 10
+    replicas: 3
+    selector:
+      matchLabels:
+        app: pod-label
+    template:
+      metadata:
+        labels:
+          app: pod-label
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+          - containerPort: 110
+  ```

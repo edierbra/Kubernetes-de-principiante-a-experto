@@ -1,11 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    kubernetes.io/change-cause: "Changes port to 200"
   name: deploy-test
   labels:
     app: front
 spec:
-  revisionHistoryLimit: 10
+  revisionHistoryLimit: 5
   replicas: 3
   selector:
     matchLabels:
@@ -19,4 +21,4 @@ spec:
       - name: nginx
         image: nginx:alpine
         ports:
-        - containerPort: 70
+        - containerPort: 200
