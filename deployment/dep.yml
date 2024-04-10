@@ -21,4 +21,4 @@ spec:
       - name: nginx
         image: nginx:alpine
         ports:
-        - containerPort: 200
+        - containerPort: 80

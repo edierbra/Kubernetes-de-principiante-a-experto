@@ -388,3 +388,9 @@ Existen diferentes formas formas. Se recomienda hacerlo directamente en el templ
           ports:
           - containerPort: 110
   ```
+
+### Roll Back
+
+Permite vover a una version anterior del Deployment por si algo sale mal.
+
+- `kubectl rollout undo deploy <deploy name> --to-revision=4` permite volver a la version de la revicion 4.
