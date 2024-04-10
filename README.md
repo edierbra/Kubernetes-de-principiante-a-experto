@@ -134,6 +134,7 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 - `kubectl api-resources` ver los comandos que tienen **SHORTNAMES**.
 - `kubectl api-versions` ver las verciones de kubernetes disponibles.
 - `kubectl run <pod name> --image=<image>:<image version>` crea un pod.
+- `kubectl --rm -it run <pod name> --image=<image>:<image version> -- sh` crea un pod y en modo interactivo y una vez salgamos se elimina automaticamente.
 - `kubectl get pods` listar todos los pods.
 - `kubectl get pod <pod name> -o yaml` obtiene el **.yaml** desde un Pod creado.
 - `kubectl get pod <pod name> -o wide` la bandera **-o wide** permite ver informacion adicional al listar los Pods.
@@ -443,3 +444,7 @@ spec:
 - Si un Pod conincide con los Labels del selectro del services, estos se agregaran al endpoint automaticamente.
 - Es una mala practica crear Pods indempendientes.
 - `kubectl get en` o `kubectl get endpoints` para obtener los endpoints.
+
+### Servicios y DNS
+
+Internamente podemos acceder al servicio mediante su `<service ip>:<service port>` o con `<service name>:<service port>`.
