@@ -447,4 +447,15 @@ spec:
 
 ### Servicios y DNS
 
-Internamente podemos acceder al servicio mediante su `<service ip>:<service port>` o con `<service name>:<service port>`.
+- Internamente podemos acceder al servicio mediante su `<service ip>:<service port>` o con `<service name>:<service port>`.
+- `kubectl port-forward service/<service name> <host port>:<service port>` crea un tunel para acceder al services desde el navegador mediante `localhost:<host port>`
+
+### Tipos de Servicios
+
+-  Debemos agregar `type: <type>` dentro del spec del template del Services para especificar el tipo de servicio (ClusterIP, NodePort, LoadBalancer, entre otros).
+
+#### ClusterIp Service
+
+- Es el servicio por defecto.
+- Solo es accecible dentro del Cluster y se usa para la comunicacion interna entre servicios.
+- Con la ip del servicesno podremos acceder de manera externa al cluster.
