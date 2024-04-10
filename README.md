@@ -399,6 +399,14 @@ Permite vover a una version anterior del Deployment por si algo sale mal.
 
 ### Que es un servicio
 
-Observa los Pods con ciertos Labels sin importar a que Deployment o ReplicaSet pertenecen, para que en el caso que un usuario haga una solicitud al servicio, este lo redirija a los Pods que observa. Lacarga se distribuye mediante el load balancer llamado **round robin**.
+- Observa los Pods con ciertos Labels sin importar a que Deployment o ReplicaSet pertenecen, para que en el caso que un usuario haga una solicitud al servicio, este lo redirija a los Pods que observa.
+- La carga se distribuye mediante el load balancer llamado **round robin**.
+- El servicio tiene asignado un DNS y una IP al que se realizan las solicitudes.
 
-El servicio tiene asignado una IP con un DNS al que se realizan las solicitudes.
+### Enpoints
+
+- Un Endpoint es una lista de IPs
+- Kubernetes crea un Endpoint cada vez que se crea un Servicio que usa labels.
+- Cada vez que el Servicio encuentra un Pod que coincida con los labels asignados, guarda la IP del Pod en el Endpoint.
+- Si un Pod muere, el Servicio lo elimina del EndPoint.
+- Cada vez que se crea un nuevo Pod que coincida con los labels del Servicio, este lo guarda en el Endpoint.
