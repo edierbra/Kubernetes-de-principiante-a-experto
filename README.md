@@ -406,7 +406,33 @@ Permite vover a una version anterior del Deployment por si algo sale mal.
 ### Enpoints
 
 - Un Endpoint es una lista de IPs
-- Kubernetes crea un Endpoint cada vez que se crea un Servicio que usa labels.
+- Kubernetes crea un Endpoint cada vez que se crea un Servicio con un selector.
 - Cada vez que el Servicio encuentra un Pod que coincida con los labels asignados, guarda la IP del Pod en el Endpoint.
 - Si un Pod muere, el Servicio lo elimina del EndPoint.
 - Cada vez que se crea un nuevo Pod que coincida con los labels del Servicio, este lo guarda en el Endpoint.
+
+### Estructura del Service
+
+Archivo svc.yml:
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: src-test
+  labels:
+    app: front
+spec:
+  selector:
+    app: pod-label
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+```
+
+- Se Recomienda siempre colocar un label en la metadata del Service.
+- El `selector:` indica que labels debo usar para observar a los Pods.
+- `protocol`indica el protocolo a usar.
+- `port` indica el puerto donde el Servicio va a estar escuchando.
+`targetPort` indica el puerto en donde los Pods estan escuchando. Es decir, a que puerto en el los Pods el servicio debe mandar las solicitudes.
