@@ -394,3 +394,11 @@ Existen diferentes formas formas. Se recomienda hacerlo directamente en el templ
 Permite vover a una version anterior del Deployment por si algo sale mal.
 
 - `kubectl rollout undo deploy <deploy name> --to-revision=4` permite volver a la version de la revicion 4.
+
+## Seccion 8: Services & Endpoints
+
+### Que es un servicio
+
+Observa los Pods con ciertos Labels sin importar a que Deployment o ReplicaSet pertenecen, para que en el caso que un usuario haga una solicitud al servicio, este lo redirija a los Pods que observa. Lacarga se distribuye mediante el load balancer llamado **round robin**.
+
+El servicio tiene asignado una IP con un DNS al que se realizan las solicitudes.
