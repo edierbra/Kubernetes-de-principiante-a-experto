@@ -463,6 +463,63 @@ spec:
 #### NodePort Servives
 
 - Expone un servicio fuera del cluster.
-- Basicamente es exponer un puerto a nivel del Nodo para que un cliente pueda acceder al servicio creado.
+- Cada vez que se crea un NodePort se crea un ClusterIP.
+- Basicamente es exponer un puerto a nivel del Nodo para que un cliente pueda acceder al ClusterIP, luego al Servicio y finalmente a los Pods.
 - El rango de puertos permitidos para el servicio NodePort es del puerto 30000 al puerto 32767.
 - `minikube service svc-test2` ver los servicios creados y la direccion externa para acceder a ellos.
+
+#### LoadBalancer Servives
+
+- Provee al nodo un Load Balancer de cloud.
+- Cada vez que se crea un LoadBalancer se crea un NodePort y un ClusterIP.
+- Cuando un cliente accede al LoadBalancer, puede acceder al NodePort, luego al ClusterIP, despues al Servicio y finalmente a los Pods.
+- Por lo general el LoadBalancer se encuentra en una subred publica (puede acceder a internet) pero la comunicacion del balancador al nodo se haga mediante una IP privada. Es decir el nodo se encuentra en una subred privada, no accede a internet.
+
+## Golang, JavaScript y Kubernetes
+
+### Creando el Backend
+
+- Creamos el archivo `k8-hands-on/backend/src/main.go`:
+```go
+package main
+
+import (
+	"encoding/json"
+    "net/http"
+	"os"
+	"time"
+)
+
+type HandsOn struct {
+	Time time.Time `json:"time"`
+	Hostname string `json:"hostname"`
+}
+
+func ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+	resp := HandsOn{
+		Time: time.Now(),
+		Hostname: os.Getenv("HOSTNAME"),
+	}
+	jsonResp, err := json.Marshal(&resp)
+	if err != nil { 
+		w.Write([]byte("Error"))
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+    w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonResp)
+}
+
+func main() {
+    http.HandleFunc("/", ServeHTTP)
+    http.ListenAndServe(":9090", nil)
+}
+```
+- `docker pull golang` descargamos el contenedor de golang.
+- Nos dirigimos al directorio: `k8-hands-on/backend/src/`.
+- `docker run --rm -dit -v $PWD/:/go --net host --name golang golang bash` ejecutamos el contenedor golang en modo interactivo y en segundo plano, compartimos el directorio actual (`k8-hands-on/backend/src/`), en la red host y con un nombre `golang`.
+- `docker exec -it golang bash` ingeresamos al contenedor.
+- `go run main.go` corere el servicio creado.
+- `http://localhost:9090/` permite acceder al servicio desde el navegador
