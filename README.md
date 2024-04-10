@@ -479,7 +479,7 @@ spec:
 
 ### Creando el Backend
 
-- Creamos el archivo `k8-hands-on/backend/src/main.go`:
+- Creamos el archivo `k8-hands-on/backend/src/main.go`, puedes ver [esta pagina de ayuda](https://dev.to/moficodes/build-your-first-rest-api-with-go-2gcj):
 ```go
 package main
 
@@ -523,3 +523,4 @@ func main() {
 - `docker exec -it golang bash` ingeresamos al contenedor.
 - `go run main.go` corere el servicio creado.
 - `http://localhost:9090/` permite acceder al servicio desde el navegador
+
