@@ -517,6 +517,7 @@ func main() {
     http.ListenAndServe(":9090", nil)
 }
 ```
+
 - `docker pull golang` descargamos el contenedor de golang.
 - Nos dirigimos al directorio: `k8-hands-on/backend/src/`.
 - `docker run --rm -dit -v $PWD/:/go --net host --name golang golang bash` ejecutamos el contenedor golang en modo interactivo y en segundo plano, compartimos el directorio actual (`k8-hands-on/backend/src/`), en la red host y con un nombre `golang`.
@@ -524,3 +525,23 @@ func main() {
 - `go run main.go` corere el servicio creado.
 - `http://localhost:9090/` permite acceder al servicio desde el navegador
 
+### Crear el Dockerfile
+
+Archico `k8-hands-on/backend/src/Dockerfile`:
+```dockerfile
+FROM golang:1.13 as builder
+
+WORKDIR /app
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux GOPROXY=https://proxy.golang.org go build -o app ./main.go
+
+FROM alpine:latest
+
+WORKDIR /app
+COPY --from=builder /app/app .
+CMD ["./app"]
+```
+
+- `sudo docker build -t k8-hands-on -f Dockerfile `ejecuto el Dockerfile para crear la imagen **k8-hands-on**.
+- `docker run -d -p 9091:9090 --name k8-hands-on k8-hands-on`ejecuto la imagen **k8-hands-on** y expongo el puerto **9091** de nuestro host para acceder a la aplicacion.
+- `docker rm -fv k8-hands-on` para eliminar el contenedor si ya no lo necesito
