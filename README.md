@@ -437,3 +437,9 @@ spec:
 - `port` indica el puerto donde el Servicio va a estar escuchando.
 `targetPort` indica el puerto en donde los Pods estan escuchando. Es decir, a que puerto en el los Pods el servicio debe mandar las solicitudes.
 - `kubectl describe svc <service name>` para describir un Services por su nombre. De esta manera podremos ver sus Endpoints y demas caracteristicas.
+
+### Pods & Endpoints
+
+- Si un Pod conincide con los Labels del selectro del services, estos se agregaran al endpoint automaticamente.
+- Es una mala practica crear Pods indempendientes.
+- `kubectl get en` o `kubectl get endpoints` para obtener los endpoints.
