@@ -827,3 +827,56 @@ spec:
           ports:
           - containerPort: 80
   ```
+
+### DNS en los servicios del namespace
+
+Se tiene este template:
+
+```yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ci
+  labels:
+    name: ci
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-k8-hands-on
+  namespace: ci
+  labels:
+    app: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: k8-hands-on:v2
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-k8-hands-on
+  namespace: ci
+  labels:
+    app: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9090
+```
+
+Para acceder al servicio desde otro namespaces se debe especificar `<svcName>.<nsName>.svc.cluster.local`. Por ejemplo, para acceder desde un pod de otro namespace al servicio **backend-k8-hands-on** y namespace **ci** usando `curl`, seria `curl backend-k8-hands-on.ci.svc.cluster.local`.
