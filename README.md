@@ -621,7 +621,7 @@ xmlhttp.send();
 </script>
 ```
 
-- `url = "http://localhost:8081"` se configuro la url con la direccion del `kubectl port-forward` del servicio backend por que minikube no esta localmente., Si lo estuviera la url seria `url = "http://backend-k8-hands-on"`, es decir el nombre o ip del servicio.
+- `url = "http://localhost:8081"` se configuro la url con la direccion del `kubectl port-forward` del servicio backend por que minikube no esta localmente. Si lo estuviera la url seria `url = "http://backend-k8-hands-on"`, es decir el nombre o ip del servicio del backend.
 - Para probarlo crear un pod de nginx y colocar el `index.html` en el directorio `/usr/share/nginx/html/index.html` del contenedor
 - Finalmente hacer un `kubectl port-forward`al pod creado e ingresar la direccion en el navegador.
 - Pueden haber problemas de CORS, para esto ver el siguiente paso.
