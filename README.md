@@ -482,6 +482,7 @@ spec:
 ### Creando el Backend
 
 - Creamos el archivo `k8-hands-on/backend/src/main.go`, puedes ver [esta pagina de ayuda](https://dev.to/moficodes/build-your-first-rest-api-with-go-2gcj):
+
 ```go
 package main
 
@@ -527,9 +528,10 @@ func main() {
 - `go run main.go` corere el servicio creado.
 - `http://localhost:9090/` permite acceder al servicio desde el navegador
 
-### Crear el Dockerfile
+### Crear el Dockerfile para el Backend
 
-Archico `k8-hands-on/backend/src/Dockerfile`:
+Archico `k8-hands-on/backend/Dockerfile`:
+
 ```dockerfile
 FROM golang:1.13 as builder
 
@@ -546,11 +548,11 @@ CMD ["./app"]
 
 - `docker build -t k8-hands-on -f Dockerfile .`ejecuto el Dockerfile para crear la imagen **k8-hands-on**. La imagen la puedes encontar en DockerHub `ricardoandre97/backend-k8s-hands-on:v1`.
 - `docker run -d -p 9091:9090 --name k8-hands-on k8-hands-on`ejecuto la imagen **k8-hands-on** y expongo el puerto **9091** de nuestro host para acceder a la aplicacion.
-- `docker rm -fv k8-hands-on` para eliminar el contenedor si ya no lo necesito
+- `docker rm -fv k8-hands-on` para eliminar el contenedor si ya no lo necesito.
 
-### Crear el manifiesto para la aplicacion
+### Crear el manifiesto para el backend
 
-Archivo **backend.yml**:
+Archivo `k8-hands-on/backend/backend.yml`:
 ```yml
 apiVersion: apps/v1
 kind: Deployment
@@ -593,9 +595,9 @@ spec:
 - `kubectl apply -f backend.yml` crea el deployment y el servicio.
 - Acceder al servicio en el navegador ingresando a `<service-ip>:<service-port>`.
 - Si no se puede acceder posiblemente necesitas crear un tunel con `kubectl port-forward service/backend-k8-hands-on <host-port>:<service-port` e ingresar en el navegador `localhost:<host-port>`.
-- Otra forma de acceder al servicio es creando un Pod preferiblemente de **nginx** en modo interactivo y hacer curl desde el Pod.
+- Otra forma de acceder al servicio es creando un Pod preferiblemente de **nginx** en modo interactivo y hacer curl al services desde el Pod.
 
-### Creando el FrontEnd
+### Creando el Frontend
 
 Crear el archivo `k8-hands-on/frontend/src/index.html`:
 
@@ -665,3 +667,59 @@ func main() {
 ```
 - Se modifico el Header para corregir los errores de CORS y asi permitir todos los origenes.
 - Se creo una nueva imagen **v2** y se aplicaron los cambios al Deployment y Services del BackEnd.
+
+### Crear el Dockerfile para el Frontend
+
+Archico `k8-hands-on/frontend/Dockerfile`:
+
+```dockerfile
+FROM nginx:alpine
+
+COPY ./src/index.html /usr/share/nginx/html/index.html
+```
+
+- `docker build -t frontend-k8-hands-on:v1 -f Dockerfile .`ejecuto el Dockerfile para crear la imagen **frontend-k8-hands-on:v1**. La imagen la puedes encontar en DockerHub `ricardoandre97/frontend-k8s-hands-on:v1`.
+- `docker run -d -p 80:80 --name frontend-k8-hands-on frontend-k8-hands-on:v1`ejecuto la imagen **frontend-k8-hands-on:v1** y expongo el puerto **80** de nuestro host para acceder a la aplicacion.
+- `docker rm -fv frontend-k8-hands-on` para eliminar el contenedor si ya no lo necesito.
+
+### Crear el manifiesto para el frontend
+
+Archivo `k8-hands-on/frontend/frontend.yml:
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-k8-hands-on
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: frontend-k8-hands-on:v1
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-k8-hands-on
+  labels:
+    app: frontend
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```
