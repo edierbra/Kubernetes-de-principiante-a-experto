@@ -729,3 +729,19 @@ spec:
 - Acceder al servicio en el navegador ingresando a `<service-ip>:<service-port>`.
 - Si no se puede acceder posiblemente necesitas ver los servicios creados con `mikibube service --all` y de esta manera ver la url valida.
 - Otra forma de acceder al servicio es creando un Pod preferiblemente de **nginx** en modo interactivo y hacer curl al services desde el Pod.
+
+## Namespaces & Context
+
+### Que es un Namespace
+
+- Es una separacion logica que nos brinda un scope o limite. Es decir, nos permite agrupar un grupo de recursos y aislarlos dentro de un cluster.
+- Permite tener diferentes proyectos en los diferentes Namespaces.
+- Permite limitar los recursos en cada Namespaces, permitiendo configurar el numero de replicas permitidas, memoria, acceso o autorizaciones, etc.
+
+### Namespaces por default
+
+- `Kubectl get namespaces` lista los Namespaces.
+- Si no se especifica el namespaces, el recurso se creara en el namespaces **default**.
+- Al namespaces **kube-public** pueden acceder todos los usuarios sin importar sus permisos.
+- El namespaces **kube-system** es el que usa kubernetes para solos objetos que usa para es sistema. Se recomienda no modificar nada de aqui.
+
