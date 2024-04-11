@@ -594,3 +594,74 @@ spec:
 - Acceder al servicio en el navegador ingresando a `<service-ip>:<service-port>`.
 - Si no se puede acceder posiblemente necesitas crear un tunel con `kubectl port-forward service/backend-k8-hands-on <host-port>:<service-port` e ingresar en el navegador `localhost:<host-port>`.
 - Otra forma de acceder al servicio es creando un Pod preferiblemente de **nginx** en modo interactivo y hacer curl desde el Pod.
+
+### Creando el FrontEnd
+
+Crear el archivo `k8-hands-on/frontend/src/index.html`:
+
+```html
+<div id="id01"></div>
+<img src="https://kubernetes.io/_common-resources/images/flower.svg">
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+var url = "http://localhost:8081";
+
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var resp = JSON.parse(this.responseText);
+        document.getElementById("id01").innerHTML = "<h2>La hora es " + resp.time + " y el hostname es " + resp.hostname + "</h2>";
+    }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+</script>
+```
+
+- `url = "http://localhost:8081"` se configuro la url con la direccion del `kubectl port-forward` del servicio backend por que minikube no esta localmente., Si lo estuviera la url seria `url = "http://backend-k8-hands-on"`, es decir el nombre o ip del servicio.
+- Para probarlo crear un pod de nginx y colocar el `index.html` en el directorio `/usr/share/nginx/html/index.html` del contenedor
+- Finalmente hacer un `kubectl port-forward`al pod creado e ingresar la direccion en el navegador.
+- Pueden haber problemas de CORS, para esto ver el siguiente paso.
+
+### Una nueva version del BackEnd para permitir cualquier origen
+
+```go
+package main
+
+import (
+	"encoding/json"
+    "net/http"
+	"os"
+	"time"
+)
+
+type HandsOn struct {
+	Time time.Time `json:"time"`
+	Hostname string `json:"hostname"`
+}
+
+func ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+	resp := HandsOn{
+		Time: time.Now(),
+		Hostname: os.Getenv("HOSTNAME"),
+	}
+	jsonResp, err := json.Marshal(&resp)
+	if err != nil { 
+		w.Write([]byte("Error"))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+  w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Write(jsonResp)
+}
+
+func main() {
+    http.HandleFunc("/", ServeHTTP)
+    http.ListenAndServe(":9090", nil)
+}
+```
+- Se modifico el Header para corregir los errores de CORS y asi permitir todos los origenes.
+- Se creo una nueva imagen **v2** y se aplicaron los cambios al Deployment y Services del BackEnd.

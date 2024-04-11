@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: backend
-          image: k8-hands-on
-          imageIfNotPullPolicy: IfNotPresent
+          image: k8-hands-on:v2
+          imagePullPolicy: IfNotPresent
 ---
 apiVersion: v1
 kind: Service
