@@ -745,3 +745,85 @@ spec:
 - Al namespaces **kube-public** pueden acceder todos los usuarios sin importar sus permisos.
 - El namespaces **kube-system** es el que usa kubernetes para solos objetos que usa para es sistema. Se recomienda no modificar nada de aqui.
 
+### Comandos basicos
+
+- `kubectl create namespaces <namespaces-name>`crea un namespaces.
+- `kubectl get ns --show-labels` obtener los namespaces junto con sus labels.
+-  `kubectl describe namespace <namespaces-name>` describir un namespace. 
+
+- Archivo ns.yml:
+  ```yml
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: dev-ns
+    labels:
+      name: dev
+  ```
+- `kubectl apply -f ns.yml` crea un namspaces desde un archivo **YAML**.
+
+### Objetos en un namespaces
+
+- Necesitamos colocal la bandera `--namespace <namespace-name>` o `-n <namespace-name>` al momento de crear un nuevo objeto.
+- Si usamos un archivo **YAML** debemos colocar `namespace: <namespaces-name>` en la metadata del objeto:
+  ```yml
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: dev
+    labels:
+      name: dev
+  ---
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: prod
+    labels:
+      name: prod
+  ---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: deploy-dev
+    namespace: dev
+    labels:
+      app: front
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: front
+    template:
+      metadata:
+        labels:
+          app: front
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+          - containerPort: 80
+  ---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: deploy-prod
+    namespace: prod
+    labels:
+      app: back
+  spec:
+    replicas: 5
+    selector:
+      matchLabels:
+        app: back
+    template:
+      metadata:
+        labels:
+          app: back
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+          - containerPort: 80
+  ```
