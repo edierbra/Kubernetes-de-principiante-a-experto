@@ -135,6 +135,7 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 - `kubectl api-resources` ver los comandos que tienen **SHORTNAMES**.
 - `kubectl api-versions` ver las verciones de kubernetes disponibles.
 - `kubectl run <pod name> --image=<image>:<image version>` crea un pod.
+- `kubectl run <pod name> --image=<image>:<image version> --image-pull-policy IfNotPresent` crea un pod, pero `--image-pull-policy IfNotPresent` permite buscar si localemnete tenemos la imagen indicada.
 - `kubectl --rm -it run <pod name> --image=<image>:<image version> -- sh` crea un pod y en modo interactivo y una vez salgamos se elimina automaticamente.
 - `kubectl get pods` listar todos los pods.
 - `kubectl get pod <pod name> -o yaml` obtiene el **.yaml** desde un Pod creado.
@@ -592,4 +593,4 @@ spec:
 - `kubectl apply -f backend.yml` crea el deployment y el servicio.
 - Acceder al servicio en el navegador ingresando a `<service-ip>:<service-port>`.
 - Si no se puede acceder posiblemente necesitas crear un tunel con `kubectl port-forward service/backend-k8-hands-on <host-port>:<service-port` e ingresar en el navegador `localhost:<host-port>`.
-
+- Otra forma de acceder al servicio es creando un Pod preferiblemente de **nginx** en modo interactivo y hacer curl desde el Pod.
