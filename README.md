@@ -105,6 +105,7 @@ Seguir el tutorial oficial de [Install Minikube](https://minikube.sigs.k8s.io/do
 - `minikube stop` detener Minikube.
 - `minikube start` o `minikube start --vm-driver=<docker / virtualbox>` iniciar Minikube.
 - `minikube delete` eliminar Minikube 
+- `eval $(minikube -p minikube docker-env)` para apuntar al Docker interno de Minikube.
 
 ## Seccion 4: Pods en Kubernetes VS Contenedores de Docker
 
@@ -447,8 +448,8 @@ spec:
 
 ### Servicios y DNS
 
-- Internamente podemos acceder al servicio mediante su `<service ip>:<service port>` o con `<service name>:<service port>`.
 - `kubectl port-forward service/<service name> <host port>:<service port>` crea un tunel para acceder al services desde el navegador mediante `localhost:<host port>`
+- Internamente podemos acceder al servicio mediante su `<service ip>:<service port>` o con `<service name>:<service port>`.
 
 ### Tipos de Servicios
 
@@ -542,6 +543,53 @@ COPY --from=builder /app/app .
 CMD ["./app"]
 ```
 
-- `sudo docker build -t k8-hands-on -f Dockerfile `ejecuto el Dockerfile para crear la imagen **k8-hands-on**. La imagen la puedes encontar en DockerHub `ricardoandre97/backend-k8s-hands-on:v1`.
+- `docker build -t k8-hands-on -f Dockerfile .`ejecuto el Dockerfile para crear la imagen **k8-hands-on**. La imagen la puedes encontar en DockerHub `ricardoandre97/backend-k8s-hands-on:v1`.
 - `docker run -d -p 9091:9090 --name k8-hands-on k8-hands-on`ejecuto la imagen **k8-hands-on** y expongo el puerto **9091** de nuestro host para acceder a la aplicacion.
 - `docker rm -fv k8-hands-on` para eliminar el contenedor si ya no lo necesito
+
+### Crear el manifiesto para la aplicacion
+
+Archivo **backend.yml**:
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-k8-hands-on
+  labels:
+    app: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: k8-hands-on
+        imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-k8-hands-on
+  labels:
+    app: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9090
+```
+
+- Agregar `imagePullPolicy: IfNotPresent` en la parte de `containers` del Deployment
+- `kubectl apply -f backend.yml` crea el deployment y el servicio.
+- Acceder al servicio en el navegador ingresando a `<service-ip>:<service-port>`.
+- Si no se puede acceder posiblemente necesitas crear un tunel con `kubectl port-forward service/backend-k8-hands-on <host-port>:<service-port` e ingresar en el navegador `localhost:<host-port>`.
+
