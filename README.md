@@ -591,7 +591,7 @@ spec:
       targetPort: 9090
 ```
 
-- Agregar `imagePullPolicy: IfNotPresent` en la parte de `containers` del Deployment
+- Agregar `imagePullPolicy: IfNotPresent` en la parte de `containers` del Deployment.
 - `kubectl apply -f backend.yml` crea el deployment y el servicio.
 - Acceder al servicio en el navegador ingresando a `<service-ip>:<service-port>`.
 - Si no se puede acceder posiblemente necesitas crear un tunel con `kubectl port-forward service/backend-k8-hands-on <host-port>:<service-port` e ingresar en el navegador `localhost:<host-port>`.
@@ -723,3 +723,9 @@ spec:
       port: 80
       targetPort: 80
 ```
+
+- Agregar `imagePullPolicy: IfNotPresent` en la parte de `containers` del Deployment.
+- `kubectl apply -f frontend.yml` crea el deployment y el servicio del frontend.
+- Acceder al servicio en el navegador ingresando a `<service-ip>:<service-port>`.
+- Si no se puede acceder posiblemente necesitas ver los servicios creados con `mikibube service --all` y de esta manera ver la url valida.
+- Otra forma de acceder al servicio es creando un Pod preferiblemente de **nginx** en modo interactivo y hacer curl al services desde el Pod.
