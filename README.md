@@ -1045,6 +1045,24 @@ spec:
       memory: 500Mi
       cpu: 100m
     type: Container
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+  namespace: prod
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
+      resources:
+        limits:
+          memory: 500Mi
+          cpu: 8.5
+        request:
+          memory: 400Mi
+          cpu: 8.3
 ```
 
-Si algún contenedor en ese Pod no especifica su propia **request** y **limit** de memoria, el plano de control asigna el **request** y **limit** de memoria predeterminados a ese contenedor. Ademas, Verifica que cada contenedor en ese Pod solicite la cantidad de memoria especificaca entre el **min** y **max**. Igualmente sucede con el **request** y **limit** de CPU.
+- Si un contenedor supera el min o max tanto en request o limit, el contenedor no sera creado y saldra un error de lo que ocurre.
+- Si algún contenedor en ese Pod no especifica su propia **request** y **limit** de memoria, el plano de control asigna el **request** y **limit** de memoria predeterminados a ese contenedor. Ademas, Verifica que cada contenedor en ese Pod solicite la cantidad de memoria especificaca entre el **min** y **max**. Igualmente sucede con el **request** y **limit** de CPU.
