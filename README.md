@@ -944,9 +944,9 @@ spec:
   - name: cpu-demo
     image: vish/stress
     resources:
-      limits:
-        cpu: "1"
       requests:
+        cpu: "1"
+      limits:
         cpu: "0.5"
     args:
     - -cpus
@@ -954,3 +954,4 @@ spec:
 ```
 
 - Kubernetes asegura que no se sobrepase el limite de CPU disponible, por lo que si el POd supera el limite no habra advertencia o consecuencia.
+- Si le asisgno un Request mucho mayor al disponible en el nodo, el estado sera **Pending**.
