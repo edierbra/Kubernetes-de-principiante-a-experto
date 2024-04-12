@@ -1004,6 +1004,47 @@ spec:
       memory: 256Mi
       cpu: 0.5
     type: Container
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+  namespace: dev
+spec:
+  containers:
+    - name: container1
+      image: nginx:alpine
 ```
 
+- **type** infica a que objeto se aplica el LimitRange.
 - `kubectl apply/get/describe/logs` Podemos usar los comandos tradicionales con el objeto `LimitRange` o `limits`.
+
+### LimitRange con valores Minimos y Maximos
+
+Archivo **min-max-limit.yml**:
+
+```yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod
+  labels:
+    name: prod
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: min-max
+  namespace: prod
+spec:
+  limits:
+  - max:
+      memory: 1Gi
+      cpu: 1
+    min:
+      memory: 500Mi
+      cpu: 100m
+    type: Container
+```
+
+Si algún contenedor en ese Pod no especifica su propia **request** y **limit** de memoria, el plano de control asigna el **request** y **limit** de memoria predeterminados a ese contenedor. Ademas, Verifica que cada contenedor en ese Pod solicite la cantidad de memoria especificaca entre el **min** y **max**. Igualmente sucede con el **request** y **limit** de CPU.
