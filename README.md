@@ -969,4 +969,41 @@ spec:
 - **BestEffort**: usa todos los recursos disponibles, por lo que kubelet prefiere evacuar los Pods de **BestEffort** si el nodo se enfrenta a presión de recursos.
   - Un Pod tiene una clase de QoS de **BestEffort** si no cumple con los criterios ni para **Guaranteed** ni para **Burstable**. 
   - En otras palabras, un Pod es **BestEffort** solo si ninguno de los Contenedores en el Pod tiene un **limit** de memoria o un **request** de memoria, y ninguno de los Contenedores en el Pod tiene un **limit** de CPU o un **request** de CPU. Los Contenedores en un Pod pueden solicitar otros recursos y aún así ser clasificados como Mejor Esfuerzo.
-  
+
+## Seccion 12: LimitRange
+
+### Que es un LimitRange
+
+- Son limites por defecto que puedo configurarle a un Pod en caso que este no tenga especificado una configuracion.
+- Permite controlar el minimo o maximo de recursos para un objeto.
+- El LimitRange solo se aplica en el Namespaces donde se encuentra.
+
+### Configuracion
+
+Archivo **limit-range.yml**:
+
+```yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+  labels:
+    name: dev
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: men-cpu-limit-range
+  namespace: dev
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+      cpu: 1
+    defaultRequest:
+      memory: 256Mi
+      cpu: 0.5
+    type: Container
+```
+
+- `kubectl apply/get/describe/logs` Podemos usar los comandos tradicionales con el objeto `LimitRange` o `limits`.
