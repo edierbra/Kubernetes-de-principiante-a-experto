@@ -1,31 +1,28 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: uat
+  name: qa
   labels:
-    name: uat
+    name: qa
 ---
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: res-quota
-  namespace: uat
+  namespace: qa
 spec:
   hard:
-    requests.cpu: "1"
-    requests.memory: 1Gi
-    limits.cpu: "2"
-    limits.memory: 2Gi
+    pods: 3
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: uat
+  namespace: qa
   name: dp-quota
   labels:
     app: front
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: pod-quota
@@ -37,10 +34,3 @@ spec:
       containers:
       - name: nginx
         image: nginx:alpine
-        resources:
-          requests:
-            memory: 500Mi
-            cpu: 0.5
-          limits:
-            memory: 500Mi
-            cpu: 1
