@@ -974,7 +974,7 @@ spec:
 
 ### Que es un LimitRange
 
-- Son limites por defecto que puedo configurarle a un Pod en caso que este no tenga especificado una configuracion.
+- Son limites por defecto que puedo configurarle a un Pod (A nivel de Objeto) en caso que este no tenga especificado una configuracion.
 - Permite controlar el minimo o maximo de recursos para un objeto.
 - El LimitRange solo se aplica en el Namespaces donde se encuentra.
 
@@ -1066,3 +1066,36 @@ spec:
 
 - Si un contenedor supera el min o max tanto en request o limit, el contenedor no sera creado y saldra un error de lo que ocurre.
 - Si algún contenedor en ese Pod no especifica su propia **request** y **limit** de memoria, el plano de control asigna el **request** y **limit** de memoria predeterminados a ese contenedor. Ademas, Verifica que cada contenedor en ese Pod solicite la cantidad de memoria especificaca entre el **min** y **max**. Igualmente sucede con el **request** y **limit** de CPU.
+
+## Seccion 13: ResourceQuota
+
+### Que es un ResourceQuota
+
+- A diferencia del LimitRange este se aplica a nivel de Namespaces; es decir, limita el uso de recursos en un Namespace sin importar los objetos dentro de el.
+
+### Estructura de ResourceQuota
+
+Archivo **res-quota.yml**:
+
+```yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: uat
+  labels:
+    name: uat
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: res-quota
+  namespace: uat
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 1Gi
+    limits.cpu: "2"
+    limits.memory: 2Gi
+```
+
+- `kubectl apply/get/describe/logs` Podemos usar los comandos tradicionales con el objeto `ResourceQuota` o `quota`.
