@@ -1072,6 +1072,7 @@ spec:
 ### Que es un ResourceQuota
 
 - A diferencia del LimitRange este se aplica a nivel de Namespaces; es decir, limita el uso de recursos en un Namespace sin importar los objetos dentro de el.
+- Si se supera el limite de recursos del ResourceQuota, kubernetes no creara mas objetos.
 
 ### Estructura de ResourceQuota
 
@@ -1096,6 +1097,36 @@ spec:
     requests.memory: 1Gi
     limits.cpu: "2"
     limits.memory: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: uat
+  name: dp-quota
+  labels:
+    app: front
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pod-quota
+  template:
+    metadata:
+      labels:
+        app: pod-quota
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: 500Mi
+            cpu: 0.5
+          limits:
+            memory: 500Mi
+            cpu: 1
 ```
 
+- Es obligatorio tener un **limit** y **request**  en cada contenedor.
 - `kubectl apply/get/describe/logs` Podemos usar los comandos tradicionales con el objeto `ResourceQuota` o `quota`.
+- `kubectl describe ns <namespace-name>` para ver que recursos estan usados de los disponibles en el namespace.

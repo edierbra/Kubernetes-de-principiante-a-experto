@@ -16,3 +16,31 @@ spec:
     requests.memory: 1Gi
     limits.cpu: "2"
     limits.memory: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: uat
+  name: dp-quota
+  labels:
+    app: front
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pod-quota
+  template:
+    metadata:
+      labels:
+        app: pod-quota
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: 500Mi
+            cpu: 0.5
+          limits:
+            memory: 500Mi
+            cpu: 1
