@@ -887,3 +887,11 @@ Para acceder al servicio desde otro namespaces se debe especificar `<svcName>.<n
 - `kubectl config view` ver la configuracion de kubectl.
 - `kubectl config set-context <context-name> --namespace=<namespace-name> --cluster=<cluster-name> --user=<user-name>` crear un nuevo context, para esto se debe tener en cuenta la informacion de la configuracion de kubectl.
 - `kubectl config use-context <context-name>` usar un context. De esta manera nos ahorramos escribir `--namespace <namespace-name>` o `-n <namespace-name>` cada vez que ejecutamos un comando.
+
+## Limitar la Ram y CPU en los Pods
+
+- Es importante limitar los recursos para que los 
+Pods no consuman todos los recursos disponibles en el nodo.
+- Se pueden aplicar limites en Ram y CPU:
+  - La Ram se puede limitar en Bytes, MB, GB, etc.
+  - En CPUs tenemos que **1 CPU = 1000 mili CPUs = 1000 mili Cores**. Por lo tanto se puede limitar en porcentajes `0.1 => 10%` o en mili CPUs/Cores `100m => 100CPUs/Cores`
