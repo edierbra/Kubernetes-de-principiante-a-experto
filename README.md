@@ -895,3 +895,10 @@ Pods no consuman todos los recursos disponibles en el nodo.
 - Se pueden aplicar limites en Ram y CPU:
   - La Ram se puede limitar en Bytes, MB, GB, etc.
   - En CPUs tenemos que **1 CPU = 1000 mili CPUs = 1000 mili Cores**. Por lo tanto se puede limitar en porcentajes `0.1 => 10%` o en mili CPUs/Cores `100m => 100CPUs/Cores`
+
+### Limits & Request
+
+- **Request** es la cantidad de recurspos que el pod siempre va a poder disponer.
+- **Limit** es la cantidad de recursos limite que el pod va a poder disponer.
+- Limit es mayor que Request, si hay recursos en el Nodo, el Pod va a disponer de esta diferencia de recursos no garantizada.
+- Cuando un Pod supera el Limite, kubernetes eliminara o reiniciara el Pod dependiendo de las politicas configuradas
