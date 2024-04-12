@@ -955,3 +955,18 @@ spec:
 
 - Kubernetes asegura que no se sobrepase el limite de CPU disponible, por lo que si el POd supera el limite no habra advertencia o consecuencia.
 - Si le asisgno un Request mucho mayor al disponible en el nodo, el estado sera **Pending**.
+
+### QoS Classes
+
+- **Guaranteed**: tienen menos probabilidades de enfrentar la evacuación.
+  - Cada Contenedor en el Pod debe tener un **limit** de memoria y un **request** de memoria.
+  - Para cada Contenedor en el Pod, el **limit** de memoria debe ser igual al **request** de memoria.
+  - Cada Contenedor en el Pod debe tener un **limit** de CPU y un **request** de CPU.
+  - Para cada Contenedor en el Pod, el **limit** de CPU debe ser igual al **request** de CPU.
+- **Burstable**: el Pod puede intentar usar cualquier cantidad de recursos del nodo.
+  - El Pod no cumple con los criterios para la clase de QoS **Guaranteed**.
+  - Al menos un Contenedor en el Pod tiene un **request** o **limit** de memoria o CPU.
+- **BestEffort**: usa todos los recursos disponibles, por lo que kubelet prefiere evacuar los Pods de **BestEffort** si el nodo se enfrenta a presión de recursos.
+  - Un Pod tiene una clase de QoS de **BestEffort** si no cumple con los criterios ni para **Guaranteed** ni para **Burstable**. 
+  - En otras palabras, un Pod es **BestEffort** solo si ninguno de los Contenedores en el Pod tiene un **limit** de memoria o un **request** de memoria, y ninguno de los Contenedores en el Pod tiene un **limit** de CPU o un **request** de CPU. Los Contenedores en un Pod pueden solicitar otros recursos y aún así ser clasificados como Mejor Esfuerzo.
+  
