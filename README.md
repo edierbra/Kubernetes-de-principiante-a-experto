@@ -885,6 +885,7 @@ Para acceder al servicio desde otro namespaces se debe especificar `<svcName>.<n
 
 - Tutorial de [set-context](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_config/kubectl_config_set-context/) y [use-context](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_config/kubectl_config_use-context/).
 - `kubectl config view` ver la configuracion de kubectl.
+- `kubectl config current-context` ver el context actual.
 - `kubectl config set-context <context-name> --namespace=<namespace-name> --cluster=<cluster-name> --user=<user-name>` crear un nuevo context, para esto se debe tener en cuenta la informacion de la configuracion de kubectl.
 - `kubectl config use-context <context-name>` usar un context. De esta manera nos ahorramos escribir `--namespace <namespace-name>` o `-n <namespace-name>` cada vez que ejecutamos un comando.
 
@@ -893,7 +894,7 @@ Para acceder al servicio desde otro namespaces se debe especificar `<svcName>.<n
 - Es importante limitar los recursos para que los 
 Pods no consuman todos los recursos disponibles en el nodo.
 - Se pueden aplicar limites en Ram y CPU:
-  - La Ram se puede limitar en Bytes, MB, GB, etc.
+  - La Ram se puede limitar en Bytes, MB, GB, etc. Por ejemplo `50Mi => 50MB`
   - En CPUs tenemos que **1 CPU = 1000 mili CPUs = 1000 mili Cores**. Por lo tanto se puede limitar en porcentajes `0.1 => 10%` o en mili CPUs/Cores `100m => 100CPUs/Cores`
 
 ### Limits & Request
@@ -902,3 +903,54 @@ Pods no consuman todos los recursos disponibles en el nodo.
 - **Limit** es la cantidad de recursos limite que el pod va a poder disponer.
 - Limit es mayor que Request, si hay recursos en el Nodo, el Pod va a disponer de esta diferencia de recursos no garantizada.
 - Cuando un Pod supera el Limite, kubernetes eliminara o reiniciara el Pod dependiendo de las politicas configuradas
+
+#### Limit Ram
+
+Archivo **limit-ram.yml**:
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: limit-ram
+spec:
+  containers:
+    - name: memory-demo
+      image: polinux/stress
+      resources:
+        requests:
+          memory: "100Mi"
+        limits:
+          memory: "200Mi"
+      command: ["stress"]
+      args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
+```
+
+- Si el Pod supera el limite tendra un estado **OOMKilled**, indicando que supero el limite de memoria.
+- Si le asisgno un Request mucho mayor al disponible en el nodo, el estado sera **Pending**.
+- Para ver las causas se recomienda ejecutar `kubectl logs/describe`.
+
+#### Limit CPU
+
+Archivo **limit-cpu.yml**:
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: limit-cpu
+spec:
+  containers:
+  - name: cpu-demo
+    image: vish/stress
+    resources:
+      limits:
+        cpu: "1"
+      requests:
+        cpu: "0.5"
+    args:
+    - -cpus
+    - "2"
+```
+
+- Kubernetes asegura que no se sobrepase el limite de CPU disponible, por lo que si el POd supera el limite no habra advertencia o consecuencia.
