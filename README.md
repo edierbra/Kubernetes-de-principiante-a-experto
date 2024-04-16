@@ -1175,3 +1175,27 @@ spec:
 ```
 
 - si se exede el numero de pods, no se crearan los nuevos.
+
+## Seccion 14: Health Checks & Probes
+
+### Que son los Probes
+
+- Verifica periodicamente si un contenedor esta funcionando correctamente; es decir, hace un diagnostico periodicamente.
+- Existen 3 formas de ejecutarlo:
+  1. Mediante un **comando** y si devuelve 0 esta bien.
+  2. Mediante TCP verifica si el puerto del contenedor esta funcionando.
+  3. Mediante HTTP hace una solicitud al contenedor, si la respuesta es exitosa el contenedor esta funcionando.
+
+  ### Typos de Probes
+
+  #### Liveness
+
+  - Diagnostico para verificar si la aplicacion esta funcionando correctamente.
+
+  #### Readiness
+
+  Verifica si la aplicacion ya inicio correctamente.
+
+  #### Startup
+
+  Para aplicaciones demoradas en iniciar.
