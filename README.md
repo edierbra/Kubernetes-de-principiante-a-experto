@@ -1186,16 +1186,16 @@ spec:
   2. Mediante TCP verifica si el puerto del contenedor esta funcionando.
   3. Mediante HTTP hace una solicitud al contenedor, si la respuesta es exitosa el contenedor esta funcionando.
 
-  ### Typos de Probes
+### Typos de Probes
 
-  #### Liveness
+#### Liveness
 
-  - Diagnostico para verificar si la aplicacion esta funcionando correctamente.
+- Diagnostico para verificar si la aplicacion esta funcionando correctamente.
 
-  #### Readiness
+#### Readiness
 
-  Verifica si la aplicacion ya inicio correctamente.
+Verifica si la aplicacion ya inicio correctamente.
 
-  #### Startup
+#### Startup
 
-  Para aplicaciones demoradas en iniciar.
+Para aplicaciones demoradas en iniciar.
